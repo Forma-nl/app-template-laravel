@@ -1,0 +1,12 @@
+.git
+.forgejo
+vendor
+node_modules
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+.env
+.env.*
+!.env.example
+tests
