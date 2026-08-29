@@ -1,0 +1,33 @@
+{
+	# No worker mode here on purpose.
+	#
+	# FrankenPHP's worker mode keeps the framework booted between requests,
+	# which is most of the speed difference — but it needs an entry script
+	# written for it, and a plain public/index.php is not one. Pointing it at
+	# this file makes the server refuse to start at all.
+	#
+	# Worker mode is what the plan's Octane switch turns on, and it comes with
+	# the entry script it needs. Until then this is a normal front controller
+	# and it works everywhere.
+	frankenphp
+
+	# The ingress terminates TLS; issuing a certificate here as well would fail
+	# and take the pod with it.
+	auto_https off
+	admin off
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+:8080 {
+	root * public
+	encode zstd br gzip
+
+	log {
+		output stderr
+		format json
+	}
+
+	php_server
+}
